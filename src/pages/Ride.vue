@@ -2,20 +2,23 @@
   <div v-if="userName" class="main">
     <div class="main">
       <Navbar />
-      <Map :search-location="{ start: state.start, end: state.end }" />
+      <Map />
     </div>
-    <div class="request-container">
-      <div class="request">
+    <div class="rider-request-container">
+      <div class="rider-request">
         <LocationSelector
-          theme="drive"
           @location-selected="handleLocationSelected"
-          :title="{ start: 'Your Current Location', end: 'Your Destination' }"
+          theme="ride"
+          :title="{
+            start: 'Your Pickup Location',
+            end: 'Your Dropoff Location',
+          }"
           :help="{
-            start: 'Enter Your Current Location',
-            end: 'Enter Your Destination',
+            start: 'Enter Your Pickup Location',
+            end: 'Enter Your Dropoff Location',
           }"
         />
-        <Confirm :is-location-selected="state.isSelected" />
+        <Confirm :is-location-selected="state.isLocationSelected" />
       </div>
     </div>
   </div>
@@ -23,35 +26,30 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, onMounted, reactive, Ref } from "vue";
+import { inject, reactive, Ref } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Map from "@/components/Map.vue";
 import LocationSelector from "@/components/LocationSelector.vue";
 import Confirm from "@/components/Confirm.vue";
 
-const userName = inject("UserName") as Ref<string>
-console.log(userName.value)
+const userName = inject("UserName") as Ref<string>;
+console.log(userName);
 const state = reactive({
-  isSelected: false,
-  start: "",
-  end: "",
+  isLocationSelected: false,
 });
 const handleLocationSelected = (data: any) => {
-  state.end = data.endingPoint;
-  state.start = data.startingPoint;
-  state.isSelected = data.isSelected;
+  state.isLocationSelected = data.isSelected;
 };
-onMounted(() => {});
 </script>
 
 <style scoped lang="scss">
 .main {
   @apply h-full w-screen flex-1 z-0;
 }
-.request-container {
+.rider-request-container {
   @apply h-full w-[400px] ml-1 py-3 absolute left-0 top-0 flex flex-col justify-end;
 }
-.request {
-  @apply h-full max-h-[500px] bg-green-100 rounded-lg flex flex-col overscroll-auto;
+.rider-request {
+  @apply h-full max-h-[500px] bg-white rounded-lg flex flex-col overscroll-auto;
 }
 </style>
