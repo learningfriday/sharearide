@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, watch } from "vue";
+import { onMounted, watch } from "vue";
 import mapboxgl from "mapbox-gl";
 interface IMapProps {
   searchLocation?: {
@@ -13,7 +13,7 @@ interface IMapProps {
 }
 let props = defineProps<IMapProps>();
 let map: mapboxgl.Map;
-mapboxgl.accessToken = "WE NEED TO GENERATE A TOKEN FOR LEARNING FRIDAY IN MAP BOX";
+mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_ACCESS_TOKEN;
 const initMap = (lat: any, lng: any) => {
   map = new mapboxgl.Map({
     container: "map",

@@ -45,7 +45,9 @@
         >
           <div class="svg-container">
             <div
-              :class="state.isInFocus !== 'from' ? 'bi-geo-alt-fill' : 'bi-geo-alt'"
+              :class="
+                state.isInFocus !== 'from' ? 'bi-geo-alt-fill' : 'bi-geo-alt'
+              "
               class="bi text-sm"
             ></div>
           </div>
@@ -67,7 +69,11 @@
         </button>
       </div>
     </div>
-    <div v-for="item in placeSate.places" class="flex flex-row ml-4 mr-4">
+    <div
+      v-for="item in placeSate.places"
+      :key="item.place_name"
+      class="flex flex-row ml-4 mr-4"
+    >
       <div class="mb-1">
         <button
           class="border w-full bg-slate-100 p-2 hover:bg-white"
@@ -131,6 +137,7 @@ const handleConfirm = (e: any) => {
     });
   }
 };
+console.log("Access Token", process.env.VUE_APP_MAPBOX_ACCESS_TOKEN);
 const handleSelection = (item: any) => {
   debugger;
   emit("locationSelected", {
@@ -143,7 +150,7 @@ watch(state, (st: IState) => {
   if (st.startingPoint.length > 4) {
     placeSate.places.splice(0, placeSate.places.length);
     axios(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${st.startingPoint}.json?access_token=pk.eyJ1Ijoicm9tZW9qYW5lIiwiYSI6ImNrODdnd21vNDBsYzkzZ21tYWdxcGNhMDUifQ.PzHPss2BcLVgMLpL2xP4MA`
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${st.startingPoint}.json?access_token=${process.env.VUE_APP_MAPBOX_ACCESS_TOKEN}`
     ).then((resp) => {
       if (resp.data) {
         resp.data.features.map((item: any) => {

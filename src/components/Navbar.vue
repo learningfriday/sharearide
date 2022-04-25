@@ -5,7 +5,7 @@
         <router-link to="/">ECP</router-link>
       </div>
       <div class="menu-item">
-        <router-link to="/">Ride</router-link>
+        <router-link to="ride">Ride</router-link>
       </div>
       <div class="menu-item">
         <router-link to="drive">Drive</router-link>
@@ -16,19 +16,17 @@
       <div class="menu-item">Help</div>
       <div class="menu-item avatar-container">
         <i class="bi bi-person-circle"></i>
-        {{ props.currentUser }}
+        {{ userName }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-interface INavbar {
-  currentUser: string;
-}
-const props = withDefaults(defineProps<INavbar>(), {
-  currentUser: "Riyasat",
-});
+import { inject } from "@vue/runtime-core";
+import { Ref } from "vue";
+
+const userName = inject("UserName") as Ref<string>;
 </script>
 
 <style scoped lang="scss">
